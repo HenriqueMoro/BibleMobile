@@ -3,45 +3,44 @@ import { StyleSheet, Text, View,FlatList, TouchableOpacity,Dimensions,StatusBar 
 import Context from './context/Context';
 import {useNavigation} from '@react-navigation/native'
 
+
 const DATA = require('./nvi.json')
 const screenWidth = Dimensions.get('screen').width
 const statusHeight = StatusBar.currentHeight 
 
-export default function Books(){
-    const {getBook} = useContext(Context)
-    const navigation = useNavigation()
+
+export default function Chapter(){
     
-     function handleClick(index:number){
-        getBook(index)
-        navigation.navigate('Chapter')
-       
+    const {book,getChapter} = useContext(Context)
+    
+    const Chp = DATA[book].chapters
+
+    const navigation = useNavigation()
+
+    async function handleClick(index:number){
+        await getChapter(index)
+        navigation.navigate('Verse')
+
     }
     
-
-
     return(
-        <View style={{flex:1,marginTop: statusHeight,}}>
+        <View style={{flex:1,marginTop: statusHeight}}>
             <View style={{justifyContent:'center',alignItems:'flex-start',padding:10}}>
-                <Text style={{fontSize:25}}>Biblia NVI</Text>
+                <Text style={{fontSize:25}}>{DATA[book].name}</Text>
             </View>
-            <FlatList  data={DATA}
-                        keyExtractor={(book:any) =>String(book.abbrev)}
+            <FlatList  data={Chp}
+                        keyExtractor={(book:any) =>String(book)}
                         //onRefresh={refresh}
+                        numColumns={5}
                         //refreshing={loading}
-                        numColumns={2}
+                        
                         //onEndReached={getBooks}
                         onEndReachedThreshold={0.2}
                         
                         renderItem={({item:book,index})=>(
                             
                                 <TouchableOpacity style={styles.card} onPress={()=>handleClick(index)}>
-                                    <View style={{flex:2,justifyContent:'flex-end',alignItems:'center'}}>
-                                        <Text style={{fontSize:60}}>{book.abbrev}</Text>
-                                    </View>
-
-                                    <View style={{flex:1,justifyContent:'flex-end',alignItems:'flex-end'}}>
-                                        <Text style={styles.text}>{book.name}</Text>
-                                    </View>
+                                    <Text style={{fontSize:25}}>{index + 1}</Text>
                                 </TouchableOpacity>
                                 
                             
@@ -51,11 +50,12 @@ export default function Books(){
 }
 
 const styles = StyleSheet.create({
-  card:{
-    alignSelf:"flex-start",
-        flex:1,    
+    card:{
+        flex:1,
+        alignSelf:"center",
+        alignItems:'center',
+        justifyContent:'center',
         margin: 1,
-        
         backgroundColor: "white",
         //borderRadius: 15,
         paddingHorizontal:15,
@@ -64,12 +64,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+        //width: 100,
+        height:screenWidth/5,
         
-        height:(screenWidth/2)-20,
-        
-        
-  },
-  text:{
-      fontSize:20
-  }
-})
+    }
+  })
