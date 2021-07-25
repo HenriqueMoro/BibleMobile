@@ -20,7 +20,7 @@ export default function Books(){
 
 
     return(
-        <View style={{flex:1,marginTop: statusHeight,}}>
+        <View style={{flex:1,marginTop: statusHeight,backgroundColor:"#f2f2f2"}}>
             <View style={{justifyContent:'center',alignItems:'flex-start',padding:10}}>
                 <Text style={{fontSize:25}}>Biblia NVI</Text>
             </View>
@@ -36,7 +36,7 @@ export default function Books(){
                             
                                 <TouchableOpacity style={styles.card} onPress={()=>handleClick(index)}>
                                     <View style={{flex:2,justifyContent:'flex-end',alignItems:'center'}}>
-                                        <Text style={{fontSize:60}}>{book.abbrev}</Text>
+                                        <Text style={{fontSize:60,color:'black'}}>{book.abbrev}</Text>
                                     </View>
 
                                     <View style={{flex:1,justifyContent:'flex-end',alignItems:'flex-end'}}>
@@ -70,6 +70,8 @@ const styles = StyleSheet.create({
         
   },
   text:{
-      fontSize:20
+      fontSize:20,
+      color:'black'
+
   }
 })
